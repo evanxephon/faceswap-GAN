@@ -66,8 +66,8 @@ class FaceswapGANModel():
         self.path_A, self.path_mask_A, self.path_abgr_A, self.path_bgr_A = self.define_variables(netG=self.netGA)
         self.distorted_B, self.fake_B, self.mask_B, \
         self.path_B, self.path_mask_B, self.path_abgr_B, self.path_bgr_B = self.define_variables(netG=self.netGB)
-        self.real_A_batch = netDA.input[0][:,:,:, -3:]
-        self.real_B_batch = netDB.input[0][:,:,:, -3:]
+        self.real_A_batch = netDA.inputs[0][:,:,:, -3:]
+        self.real_B_batch = netDB.inputs[0][:,:,:, -3:]
         self.real_A = Input(shape=self.IMAGE_SHAPE)
         self.real_B = Input(shape=self.IMAGE_SHAPE)
         self.mask_eyes_A = Input(shape=self.IMAGE_SHAPE)
@@ -216,6 +216,8 @@ class FaceswapGANModel():
         # The following losses are rather trivial, thus their wegihts are fixed.
         # Cycle consistency loss
         if loss_config['use_cyclic_loss']:
+            print(f"real_A_batch:{real_A_batch.shape}")
+            print(f"real_A\:{real_A.shape}")
             loss_GA += 10 * cyclic_loss(self.netGA, self.netGB, self.real_A_batch)
             loss_GB += 10 * cyclic_loss(self.netGB, self.netGA, self.real_B_batch)
 
