@@ -66,8 +66,8 @@ class FaceswapGANModel():
         self.path_A, self.path_mask_A, self.path_abgr_A, self.path_bgr_A = self.define_variables(netG=self.netGA)
         self.distorted_B, self.fake_B, self.mask_B, \
         self.path_B, self.path_mask_B, self.path_abgr_B, self.path_bgr_B = self.define_variables(netG=self.netGB)
-        self.real_A_batch = netDA.inputs[0][:,:,:, -3:]
-        self.real_B_batch = netDB.inputs[0][:,:,:, -3:]
+        self.real_A_batch = self.netDA.inputs[0][:,:,:, -3:]
+        self.real_B_batch = self.netDB.inputs[0][:,:,:, -3:]
         self.real_A = Input(shape=self.IMAGE_SHAPE)
         self.real_B = Input(shape=self.IMAGE_SHAPE)
         self.mask_eyes_A = Input(shape=self.IMAGE_SHAPE)
