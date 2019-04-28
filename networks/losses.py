@@ -26,14 +26,20 @@ def calc_loss(pred, target, loss='l2'):
     
 def cyclic_loss(netG1, netG2, real1):
     print(f"real1:{real1.shape}")
+    
     if len(real1.shape) > 4: 
         fake2 = netG2(real1)[-1] # fake2 ABGR
     else:
         fake2 = netG2(real1)
     print(f"fake2:{fake2.shape}")
+    
     fake2_alpha = Lambda(lambda x: x[:,:,:, :1])(fake2) # fake2 BGR
     fake2 = Lambda(lambda x: x[:,:,:, 1:])(fake2) # fake2 BGR
-    cyclic1 = netG1(fake2)[-1] # cyclic1 ABGR
+    
+    if len(fake2.shape) > 4: 
+        cyclic1 = netG1(fake2)[-1] # cyclic1 ABGR
+    else:
+        cyclic1 = netG1(fake2)
     cyclic1_alpha = Lambda(lambda x: x[:,:,:, :1])(cyclic1) # cyclic1 BGR
     cyclic1 = Lambda(lambda x: x[:,:,:, 1:])(cyclic1) # cyclic1 BGR
     loss = calc_loss(cyclic1, real1, loss='l1')
