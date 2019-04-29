@@ -43,7 +43,7 @@ def cyclic_loss(netG1, netG2, real1):
     cyclic1_alpha = Lambda(lambda x: x[:,:,:, :1])(cyclic1) # cyclic1 BGR
     cyclic1 = Lambda(lambda x: x[:,:,:, 1:])(cyclic1) # cyclic1 BGR
     loss = calc_loss(cyclic1, real1, loss='l1')
-    loss += 0.1 * calc_loss(cyclic1_alpha, fake2_alpha, loss='l1')
+    #loss += 0.1 * calc_loss(cyclic1_alpha, fake2_alpha, loss='l1')
     return loss
 
 def adversarial_loss(netD, real, fake_abgr, distorted, gan_training="mixup_LSGAN", **weights):   
