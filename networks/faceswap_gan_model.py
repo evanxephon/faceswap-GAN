@@ -218,8 +218,8 @@ class FaceswapGANModel():
         if loss_config['use_cyclic_loss']:
             print(f"real_A_batch:{self.real_A.shape}")
             print(f"real_A:{self.real_A.shape}")
-            loss_GA += 10 * cyclic_loss(self.netGA, self.netGB, self.real_A)
-            loss_GB += 10 * cyclic_loss(self.netGB, self.netGA, self.real_B)
+            loss_GA += 5 * cyclic_loss(self.netGA, self.netGB, self.real_A)
+            loss_GB += 5 * cyclic_loss(self.netGB, self.netGA, self.real_B)
 
         # Alpha mask loss
         if not loss_config['use_mask_hinge_loss']:
