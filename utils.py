@@ -36,7 +36,7 @@ def stack_images(images):
         axes = np.concatenate(new_axes)
         ).reshape(new_shape)
 
-def showG(test_A, test_B, path_A, path_B, batchSize, epoch=False):
+def showG(test_A, test_B, path_A, path_B, batchSize, epoch=None):
     figure_A = np.stack([
         test_A,
         np.squeeze(np.array([path_A([test_A[i:i+1]]) for i in range(test_A.shape[0])])),
@@ -56,7 +56,7 @@ def showG(test_A, test_B, path_A, path_B, batchSize, epoch=False):
     Image.fromarray(figure).save(f'maskedresult-{epoch}.png')
     display(Image.fromarray(figure))
     
-def showG_mask(test_A, test_B, path_A, path_B, batchSize):
+def showG_mask(test_A, test_B, path_A, path_B, batchSize, epoch=None):
     figure_A = np.stack([
         test_A,
         (np.squeeze(np.array([path_A([test_A[i:i+1]]) for i in range(test_A.shape[0])])))*2-1,
@@ -76,7 +76,7 @@ def showG_mask(test_A, test_B, path_A, path_B, batchSize):
     Image.fromarray(figure).save(f'maskresult-{epoch}.png')
     display(Image.fromarray(figure))
     
-def showG_eyes(test_A, test_B, bm_eyes_A, bm_eyes_B, batchSize):
+def showG_eyes(test_A, test_B, bm_eyes_A, bm_eyes_B, batchSize, epoch=None):
     figure_A = np.stack([
         (test_A + 1)/2,
         bm_eyes_A,
@@ -118,6 +118,7 @@ def save_preview_image(test_A, test_B,
     figure = figure.reshape((4,batchSize//2) + figure.shape[1:])
     figure = stack_images(figure)
     figure = np.clip((figure + 1) * 255 / 2, 0, 255).astype('uint8')
+    Image.fromarray(figure).save(f'eyesresult-{epoch}.png')
     cv2.imwrite(save_fn, figure)  
     
 def load_yaml(path_configs):
